@@ -1,11 +1,6 @@
 body {
     background-color: #222;
-    color: #EE6;
-}
-
-h1, h2, h3 {
-    color: #EEE;
-    text-transform: uppercase;
+    color: #ee6
 }
 
 h1 {
@@ -13,31 +8,20 @@ h1 {
 }
 
 h1:hover {
-    color: #7c7c7c;
+    color: #f33
 }
 
-p {
+p{
     font-family: sans-serif;
 }
 
-p:first-of-type:first-line {
-    color: #efe;
+h1, h2, h3 {
+    color: #eee;
+    text-transform: uppercase;
 }
 
 strong {
-    border-bottom: 1px solid #FFF;
-}
-
-a:visited {
-    color: gray;
-}
-
-a:not([href]) {
-    font-style: italic;
-}
-
-#og-trilogy {
-    list-style-type: circle;
+    border-bottom: 1px solid white
 }
 
 .the-force {
@@ -53,18 +37,34 @@ a:not([href]) {
     color: #f33;
 }
 
+#og-trilogy {
+    list-style-type: circle;
+}
+
 .movies-list:nth-of-type(2) {
-    padding-left: 6em;
+    padding-left: 5em
 }
 
-.movies-list:nth-of-type(3) li:last-child {
-    margin-top: 2em;
+.movies-list:nth-of-type(3) li:nth-child(3){
+    margin-top: 15px;
 }
 
-.movies-list li:nth-child(odd) {
+p:nth-of-type(1)::first-line {
+color: #efe;
+}
+
+a:not([href]) {
+    font-style: italic;
+}
+
+a:visited {
+    color: rgb(128, 128, 128)
+}
+
+li:nth-child(odd){
     background-color: #111;
 }
 
-.movies-list li:nth-child(even) {
-    background-color: #333;
+li:nth-child(even){
+    background-color:#333;
 }
