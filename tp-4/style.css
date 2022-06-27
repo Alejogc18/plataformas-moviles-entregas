@@ -1,0 +1,31 @@
+header {
+  padding: 30px;
+  text-align: left;
+  background: #534C53;
+  font-size: 30px;
+}
+h1{
+	color:#ffff00;
+	font-size:1em;
+	font-family:Arial;
+	line-height:1;
+	font-weight:100;
+}
+.centro{
+	width:960px;
+	height:800px;
+	background-image:url("https://c.tenor.com/DX-Cn8J_S4gAAAAi/dank-memer.gif");
+}
+li{
+	
+}
+footer{
+	background-color: #6A5A6A;
+	color:white;
+	padding-top:1.2rem;
+	padding-bottom:1.2rem;
+	display:flex;
+	flex-direction:column;
+	text-align:center;
+	width: 100%;
+}
