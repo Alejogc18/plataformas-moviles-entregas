@@ -1,80 +1,134 @@
-function dibuCard(pokemones){
-  const container = document.querySelector(".row");
-  const cardContainer= document.createElement("div");
-  cardContainer.classList.add("card-container");
+const containerPokemon = document.querySelector("#container-pokemon")
+const spinner = document.querySelector("#spinner")
 
-  const col = document.createElement("div");
-  col.classList.add("col-12", "col-md-6", "col-lg-4");
+let offset = 1;
+let limit = 150;
 
-  const card = document.createElement("div");
-  card.classList.add("card", "m-2");
+const morePokemons = () => {
+    offset += 151
+    fetchPokemons(offset, limit);
+  };
 
-  container.appendChild(col);
-  col.appendChild(cardContainer);
-  cardContainer.appendChild(card);
-
-
-  card.addEventListener("click", ()=>{
-    const modal = new bootstrap.Modal(document.querySelector("#Modal"));
-    const img = document.querySelector("#shiny");
-    document.querySelector(".modal-title").innerText=`${pokemones.name.toUpperCase()}`;
-    document.querySelector("#pokeInfo1").innerText=`Tiene un peso de: ${pokemones.weight} kg.`;
-    document.querySelector("#pokeInfo2").innerText=`Tiene una altura de: ${pokemones.height/10} metro/s.`;
-    document.querySelector("#pokeInfo3").innerText=`Su forma shiny es:`;
-
-    img.src = pokemones.sprites.front_shiny;
-
-    modal.show()
-
-  })
-
-  const imagenPokemon = document.createElement("div");
-  imagenPokemon.classList.add("img-container", "mx-auto", "mt-2");
-
-  const imagen = document.createElement("img");
-  imagen.src = pokemones.sprites.front_default;
-
-  
-  imagenPokemon.appendChild(imagen);
-
-  const number = document.createElement("p");
-  number.textContent = `${pokemones.id.toString().padStart(3, 0)}`;
-
-  const name = document.createElement("p");
-  name.classList.add("titulo", "text-center");
-  number.classList.add("id", "text-center");
-  name.textContent = pokemones.name.toUpperCase();
-
-  card.appendChild(imagenPokemon);
-  card.appendChild(number);
-  card.appendChild(name);
-
-
+function fetchPokemon(id){
+    fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+        .then((res) => res.json())
+        .then((data) => {
+            createPokemon(data)
+            spinner.style.display = "none";
+        })
+        .catch(error => alert(error));
 }
 
-async function fetchData(id) {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
-  const data = await res.json();
-
-  if (data) {
-    let spinner = document.querySelector(".spinner-border");
-    spinner.classList.add("d-none");
-    dibuCard(data);
-  }
+function fetchPokemons(offset, limit) {
+    spinner.style.display = "block";
+    for (let i = offset; i <= offset + limit; i++) {
+        if (i > 906){
+            alert("Ha llegado al tope de Pokemons")
+            break
+        }
+        else if (i <= 898){
+            fetchPokemon(i);
+        }
+    }
 }
 
-let distancia = 1;
-let limite = 9;
 
-async function fetchPokemons(limite, distancia) {
-  for (let i = distancia; i < limite + distancia; i++) {
-    await fetchData(i);
-  }
-  distancia += limite;
+function createPokemon(data){
+    let pokemon = data
+    let elemento = document.createElement("div")
+    elemento.innerHTML = `
+        <div class="col">
+            <div class="card">
+                <h6 class="text-end text-bg-warning ms-auto mt-2 me-2 p-1 rounded">
+                    #${pokemon.id}
+                </h6>
+                <img src="${pokemon.sprites.front_default}" alt="" class="img-fluid">
+                <h4 class="card-title text-center text-capitalize">
+                    ${pokemon.name}
+                </h4>
+                <button type="button" class="btn btn-dark col-8 text-warning mx-auto my-2" data-bs-toggle="modal" data-bs-target="#flush-${pokemon.id}">Ver mas</button>
+            </div>
+            <div class="modal fade" id="flush-${pokemon.id}" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-capitalize">
+                                ${pokemon.name}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="text-capitalize">
+                                        <b>
+                                            Type:
+                                        </b>
+                                        ${pokemon.types[0].type.name}
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>
+                                        Base Experience:
+                                    </b>
+                                    ${pokemon.base_experience}
+                                </li>
+                                <li class="list-group-item">
+                                    <b>
+                                        Height:
+                                    </b>
+                                    ${pokemon.height} cm
+                                </li>
+                                <li class="list-group-item">
+                                    <b>
+                                        Weight:
+                                    </b>
+                                    ${pokemon.weight} kg
+                                </li>
+                                <li class="list-group-item">
+                                    <b>
+                                        Statistics:
+                                    </b>
+                                    <div class="text-start text-capitalize">
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        ${pokemon.stats[0].stat.name}:
+                                        ${pokemon.stats[0].base_stat}
+                                        <br>
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        ${pokemon.stats[1].stat.name}:
+                                        ${pokemon.stats[1].base_stat}
+                                        <br>
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        ${pokemon.stats[2].stat.name}:
+                                        ${pokemon.stats[2].base_stat}
+                                        <br>
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        ${pokemon.stats[3].stat.name}:
+                                        ${pokemon.stats[3].base_stat}
+                                        <br>
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        ${pokemon.stats[4].stat.name}:
+                                        ${pokemon.stats[4].base_stat}
+                                        <br>
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        ${pokemon.stats[5].stat.name}:
+                                        ${pokemon.stats[5].base_stat}
+                                        <br>
+                                 <li class="list-group-item">
+                                    <b>
+                                        Garcia Cabral Alejo
+                                    </b>
+                                </li>
+                                    </div> 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    containerPokemon.appendChild(elemento)
 }
 
-function siguiente() {
-  fetchPokemons(limite, (distancia += limite));
-}
-
-fetchPokemons(limite, distancia);
+fetchPokemons(offset,limit);
