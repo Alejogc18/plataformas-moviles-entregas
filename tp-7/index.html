@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>tp-7 API Pokedex</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1 class="text-center my-3">
+            Pokedex
+        </h1>
+        <div class="container-xxl">
+            <div id="container-pokemon" class="row row-cols-lg-6 row-cols-sm-3 row-cols-2 justify-content-center g-lg-2 g-3 my-4 mx-2">
+            </div>
+            <button type="button" class="btn btn-danger mb-3" onclick="morePokemons()">cargar mas pokemones</button>
+        </div>
+        <div id="spinner" class="spinner-border text-danger mx-auto mb-5" role="status">
+            <span class="visually-hidden">carganding...</span>
+        </div>
+        <script src="main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
