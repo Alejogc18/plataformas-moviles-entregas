@@ -10,7 +10,7 @@ datas = document.querySelectorAll("#img-popular"),
 pagePopular = 1,
 numero = 1,
 pageMovie = 10
-    fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=2beedaf8e29f60a05adee2af84245067&language=es-ES&page=1`)
+    fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=2beedaf8e29f60a05adee2af84245067&language&language=es-ES&page=1`)
     .then(res => res.ok ? res.json() : Promise.reject(res))
     .then(json=>{
     document.querySelector(".title-movies").innerHTML = "Películas recomendadas"
@@ -20,6 +20,10 @@ pageMovie = 10
         <article class="m-1 article-movies">
                     <img src="https://image.tmdb.org/t/p/original${el.poster_path}" class="img-pelicula" alt="${el.title}">
                     <p class="h4">${el.title}</p>
+                    <p class="card-text ">Popularidad: </p>
+                    <p class="h4">${el.popularity}</p>
+                    <p class="card-text ">Fecha de estreno: </p>
+                    <p class="card-text ">${el.release_date}</p>
         </article>
         `
     })
@@ -30,7 +34,7 @@ pageMovie = 10
 })
 
 function loadPopular() {
-    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=2beedaf8e29f60a05adee2af84245067&language=es-ES&page=${pagePopular}`)
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=2beedaf8e29f60a05adee2af84245067&language&language=es-ES&page=${pagePopular}`)
     .then(res => res.ok ? res.json() : Promise.reject(res))
     .then(json=>{
         document.querySelector(".errorApi2").innerHTML = ""
@@ -40,6 +44,11 @@ function loadPopular() {
      <img src="https://image.tmdb.org/t/p/original${el.poster_path}" class="card-img-top img-pelicula" data-bs-toggle="modal" data-bs-target="#popular" id="img-popular" data-title="${el.title}" data-img="https://image.tmdb.org/t/p/original${el.poster_path}" alt="${el.title}"">
      <div class="card-body m-0 p-0">
      <h5 class="card-title">${el.title}</h5>
+     <p class="card-text ">Popularidad: </p>
+     <p class="card-text ">${el.popularity}</p>
+     <p class="card-text ">Fecha de estreno: </p>
+     <p class="card-text ">${el.release_date}</p>
+     <p class="card-text ">Descripcion: </p>
      <p class="card-text ">${el.overview}</p>
     </div>
    </div>
@@ -74,7 +83,7 @@ prevP.addEventListener("click",e=>{
 })
 async function loadMovies(value) {   
     try {
-    let res = await fetch(`https://api.themoviedb.org/?s=${value}&page=${numero}&apikey=2beedaf8e29f60a05adee2af84245067`),
+    let res = await fetch(`https://api.themoviedb.org/?s=${value}&page=${numero}&apikey=2beedaf8e29f60a05adee2af84245067&language`),
     json = await res.json()
     if(!res.ok) throw {status: res.status, statusText: res.statusText}
      let nm = Number(json.totalResults)
